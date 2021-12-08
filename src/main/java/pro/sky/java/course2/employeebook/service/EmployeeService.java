@@ -2,7 +2,6 @@ package pro.sky.java.course2.employeebook.service;
 
 import pro.sky.java.course2.employeebook.model.Employee;
 
-import java.awt.*;
 import java.util.Collection;
 
 public interface EmployeeService {

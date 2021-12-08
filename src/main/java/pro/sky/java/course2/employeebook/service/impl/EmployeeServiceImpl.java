@@ -11,25 +11,26 @@ import java.util.*;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private Set<Employee> employees;
+    private Map<Employee, Employee> employees;
 
     public EmployeeServiceImpl() {
-        this.employees = new HashSet<>();
+        this.employees = new HashMap<>();
     }
 
     @Override
     public Employee add(String firstName, String secondName) {
         Employee newEmployee = new Employee(firstName, secondName);
-        if (employees.add(newEmployee)) {
-            return newEmployee;
+        if (employees.containsKey(newEmployee)) {
+            throw new IllegalEmployeeException(newEmployee.getFullName() + " already exists");
         }
-        throw new IllegalEmployeeException(newEmployee.getFullName() + " already exists");
+        employees.put(newEmployee, newEmployee);
+        return newEmployee;
     }
 
     @Override
     public Employee remove(String firstName, String secondName) {
         Employee toRemove = new Employee(firstName, secondName);
-        if (employees.remove(toRemove)) {
+        if (employees.remove(toRemove, toRemove)) {
             return toRemove;
         }
         throw new EmployeeNotFoundException(toRemove.getFullName() + " Not Found");
@@ -38,14 +39,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee find(String firstName, String secondName) {
         Employee toFind = new Employee(firstName, secondName);
-        if (employees.contains(toFind)) {
-            return toFind;
+        if (employees.containsKey(toFind)) {
+            return employees.get(toFind);
         }
         throw new EmployeeNotFoundException(toFind.getFullName() + " Not Found");
     }
 
     @Override
     public Collection<Employee> getEmployeesBook() {
-        return employees;
+        return employees.values();
     }
 }
