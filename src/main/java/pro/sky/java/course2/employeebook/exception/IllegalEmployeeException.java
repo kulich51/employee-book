@@ -3,9 +3,9 @@ package pro.sky.java.course2.employeebook.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class EmployeeNotFound extends RuntimeException {
-    public EmployeeNotFound(String message) {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class IllegalEmployeeException extends RuntimeException {
+    public IllegalEmployeeException(String message) {
         super(message);
     }
 }

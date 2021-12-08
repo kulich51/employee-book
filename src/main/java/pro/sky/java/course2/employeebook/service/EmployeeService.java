@@ -6,8 +6,8 @@ import java.awt.*;
 import java.util.Collection;
 
 public interface EmployeeService {
-    String add(Employee employee);
-    String remove(Employee employee);
-    Employee find(Employee employee);
+    Employee add(String firstName, String secondName);
+    Employee remove(String firstName, String secondName);
+    Employee find(String firstName, String secondName);
     Collection<Employee> getEmployeesBook();
 }

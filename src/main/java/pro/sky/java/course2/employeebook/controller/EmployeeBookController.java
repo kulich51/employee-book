@@ -17,7 +17,7 @@ public class EmployeeBookController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/get")
     public Collection<Employee> getEmployeesBook() {
         return employeeService.getEmployeesBook();
     }
