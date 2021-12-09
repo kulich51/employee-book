@@ -2,8 +2,12 @@ package pro.sky.java.course2.employeebook.service;
 
 import pro.sky.java.course2.employeebook.model.Employee;
 
+import java.awt.*;
+import java.util.Collection;
+
 public interface EmployeeService {
-    String add(String firstName, String secondName);
-    String remove(String firstName, String secondName);
+    Employee add(String firstName, String secondName);
+    Employee remove(String firstName, String secondName);
     Employee find(String firstName, String secondName);
+    Collection<Employee> getEmployeesBook();
 }
