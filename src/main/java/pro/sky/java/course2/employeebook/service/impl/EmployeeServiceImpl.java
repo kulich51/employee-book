@@ -11,41 +11,44 @@ import java.util.*;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private Set<Employee> employees;
+    private final Map<String, Employee> employees;
 
     public EmployeeServiceImpl() {
-        this.employees = new HashSet<>();
+        this.employees = new HashMap<>();
     }
 
     @Override
     public Employee add(String firstName, String secondName) {
         Employee newEmployee = new Employee(firstName, secondName);
-        if (employees.add(newEmployee)) {
-            return newEmployee;
+        if (employees.containsKey(newEmployee.getFullName())) {
+            throw new IllegalEmployeeException(newEmployee.getFullName() + " already exists");
         }
-        throw new IllegalEmployeeException(newEmployee.getFullName() + " already exists");
+        employees.put(newEmployee.getFullName(), newEmployee);
+        return newEmployee;
     }
 
     @Override
     public Employee remove(String firstName, String secondName) {
-        Employee toRemove = new Employee(firstName, secondName);
-        if (employees.remove(toRemove)) {
-            return toRemove;
+        String name = firstName + " " + secondName;
+        Employee toRemove;
+        if ((toRemove = employees.remove(name)) == null) {
+            throw new EmployeeNotFoundException(name + " Not Found");
         }
-        throw new EmployeeNotFoundException(toRemove.getFullName() + " Not Found");
+        return toRemove;
     }
 
     @Override
     public Employee find(String firstName, String secondName) {
-        Employee toFind = new Employee(firstName, secondName);
-        if (employees.contains(toFind)) {
-            return toFind;
+        String name = firstName + " " + secondName;
+        Employee toFind;
+        if ((toFind = employees.get(name)) == null) {
+            throw new EmployeeNotFoundException(name + " Not Found");
         }
-        throw new EmployeeNotFoundException(toFind.getFullName() + " Not Found");
+        return toFind;
     }
 
     @Override
     public Collection<Employee> getEmployeesBook() {
-        return employees;
+        return employees.values();
     }
 }
