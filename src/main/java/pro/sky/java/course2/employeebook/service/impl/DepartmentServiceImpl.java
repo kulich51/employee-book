@@ -1,7 +1,5 @@
 package pro.sky.java.course2.employeebook.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.employeebook.exception.EmployeeNotFoundException;
 import pro.sky.java.course2.employeebook.model.Employee;
@@ -13,11 +11,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-@Component
 public class DepartmentServiceImpl implements DepartmentService {
 
-    @Autowired
-    private EmployeeServiceImpl employeeServiceImpl;
+    private EmployeeService employeeService;
+
+    public DepartmentServiceImpl(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @Override
     public float getTotalSalary(Integer departmentId) {
@@ -62,10 +62,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     private Stream<Employee> filterByDepartment(Integer departmentId) {
-        Stream<Employee> filtered = employeeServiceImpl.getEmployeesBook().stream();
-        if (departmentId != null) {
-            filtered.filter(employee -> employee.getDepartmentId().equals(departmentId)) ;
-        }
-        return filtered;
+        return employeeService.
+                getEmployeesBook().
+                stream().
+                filter(employee -> departmentId != null ? employee.getDepartmentId().equals(departmentId) : true);
     }
 }
