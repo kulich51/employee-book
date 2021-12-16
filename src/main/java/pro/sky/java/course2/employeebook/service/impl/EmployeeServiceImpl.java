@@ -1,5 +1,6 @@
 package pro.sky.java.course2.employeebook.service.impl;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.employeebook.exception.EmployeeNotFoundException;
 import pro.sky.java.course2.employeebook.exception.IllegalEmployeeException;
@@ -9,6 +10,7 @@ import pro.sky.java.course2.employeebook.service.EmployeeService;
 import java.util.*;
 
 @Service
+@Component
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final Map<String, Employee> employees;
@@ -18,8 +20,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee add(String firstName, String secondName) {
-        Employee newEmployee = new Employee(firstName, secondName);
+    public Employee add(String firstName, String secondName, Integer department, Float salary) {
+        Employee newEmployee = new Employee(firstName, secondName, department, salary);
         if (employees.containsKey(newEmployee.getFullName())) {
             throw new IllegalEmployeeException(newEmployee.getFullName() + " already exists");
         }

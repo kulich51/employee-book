@@ -3,12 +3,20 @@ package pro.sky.java.course2.employeebook.model;
 import java.util.Objects;
 
 public class Employee {
+    private static int employeeCount;
+
     private final String firstName;
     private final String secondName;
+    private final Integer id;
+    private Integer departmentId;
+    private Float salary;
 
-    public Employee(String firstName, String secondName) {
+    public Employee(String firstName, String secondName, Integer departmentId, Float salary) {
         this.firstName = firstName;
         this.secondName = secondName;
+        this.departmentId = departmentId;
+        this.salary = salary;
+        this.id = ++employeeCount;
     }
 
     public String getFirstName() {
@@ -17,6 +25,26 @@ public class Employee {
 
     public String getSecondName() {
         return secondName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public Float getSalary() {
+        return salary;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public void setSalary(Float salary) {
+        this.salary = salary;
     }
 
     @Override
