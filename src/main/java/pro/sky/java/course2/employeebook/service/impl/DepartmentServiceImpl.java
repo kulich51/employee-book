@@ -13,58 +13,53 @@ import java.util.stream.Stream;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private EmployeeService employeeService;
+    private static final int DEFAULT_DEPARTMENT = -1;
 
-    public DepartmentServiceImpl(EmployeeService employeeService) {
+    private final EmployeeServiceImpl employeeService;
+
+    public DepartmentServiceImpl(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
 
     @Override
-    public float getTotalSalary(Integer departmentId) {
+    public float getTotalSalary(int departmentId) {
         return filterByDepartment(departmentId).
                 map(Employee::getSalary).
                 reduce(0.0F, Float::sum);
     }
 
     @Override
-    public float getAverageSalary(Integer departmentId) {
+    public float getAverageSalary(int departmentId) {
         long count = filterByDepartment(departmentId).count();
         return getTotalSalary(departmentId) / (float) count;
     }
 
     @Override
-    public Employee getEmployeeWithMaxSalary(Integer departmentId) {
+    public Employee getEmployeeWithMaxSalary(int departmentId) {
         return filterByDepartment(departmentId).
-                max(getComparatorBySalary()).
+                max(Comparator.comparing(Employee::getSalary)).
                 orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
     }
 
     @Override
-    public Employee getEmployeeWithMinSalary(Integer departmentId) {
+    public Employee getEmployeeWithMinSalary(int departmentId) {
         return filterByDepartment(departmentId).
-                min(getComparatorBySalary()).
+                min(Comparator.comparing(Employee::getSalary)).
                 orElseThrow(() -> new EmployeeNotFoundException("Employee not found"));
     }
 
-    private Comparator<Employee> getComparatorBySalary() {
-        return Comparator.comparing(Employee::getSalary);
-    }
-
     @Override
-    public Collection<Employee> getEmployees(Integer departmentId) {
+    public Collection<Employee> getEmployees(int departmentId) {
         return filterByDepartment(departmentId).
-                sorted(getComparatorByFullName()).
+                sorted(Comparator.comparing(Employee::getFullName)).
                 collect(Collectors.toList());
     }
 
-    private Comparator<Employee> getComparatorByFullName() {
-        return Comparator.comparing(Employee::getFullName);
-    }
 
-    private Stream<Employee> filterByDepartment(Integer departmentId) {
+    private Stream<Employee> filterByDepartment(int departmentId) {
         return employeeService.
                 getEmployeesBook().
                 stream().
-                filter(employee -> departmentId != null ? employee.getDepartmentId().equals(departmentId) : true);
+                filter(employee -> employee.getDepartmentId().equals(departmentId) || departmentId == DEFAULT_DEPARTMENT);
     }
 }

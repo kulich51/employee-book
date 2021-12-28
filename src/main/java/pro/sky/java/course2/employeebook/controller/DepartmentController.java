@@ -17,27 +17,27 @@ public class DepartmentController {
     }
 
     @GetMapping("/total-salary/{departmentId}")
-    public Float getTotalSalary(@PathVariable Integer departmentId) {
+    public Float getTotalSalary(@PathVariable int departmentId) {
         return departmentService.getTotalSalary(departmentId);
     }
 
     @GetMapping("/average-salary/{departmentId}")
-    public Float getAverageSalary(@PathVariable Integer departmentId) {
+    public Float getAverageSalary(@PathVariable int departmentId) {
         return departmentService.getAverageSalary(departmentId);
     }
 
     @GetMapping("/max-salary")
-    public Employee getEmployeeWithMaxSalary(@RequestParam Integer departmentId) {
+    public Employee getEmployeeWithMaxSalary(@RequestParam int departmentId) {
         return departmentService.getEmployeeWithMaxSalary(departmentId);
     }
 
     @GetMapping("/min-salary")
-    public Employee getEmployeeWithMinSalary(@RequestParam Integer departmentId) {
+    public Employee getEmployeeWithMinSalary(@RequestParam int departmentId) {
         return departmentService.getEmployeeWithMinSalary(departmentId);
     }
 
     @GetMapping("/all")
-    public Collection<Employee> getEmployees(@RequestParam(required = false) Integer departmentId) {
+    public Collection<Employee> getEmployees(@RequestParam (required = false, defaultValue = "-1") int departmentId) {
         return departmentService.getEmployees(departmentId);
     }
 }

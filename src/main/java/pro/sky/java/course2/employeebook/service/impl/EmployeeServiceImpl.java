@@ -1,6 +1,5 @@
 package pro.sky.java.course2.employeebook.service.impl;
 
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.employeebook.exception.EmployeeNotFoundException;
 import pro.sky.java.course2.employeebook.exception.IllegalEmployeeException;
@@ -9,11 +8,11 @@ import pro.sky.java.course2.employeebook.model.Employee;
 import java.util.*;
 
 @Service
-public class EmployeeService implements pro.sky.java.course2.employeebook.service.EmployeeService {
+public class EmployeeServiceImpl implements pro.sky.java.course2.employeebook.service.EmployeeService {
 
     private final Map<String, Employee> employees;
 
-    public EmployeeService() {
+    public EmployeeServiceImpl() {
         this.employees = new HashMap<>();
     }
 
